@@ -2,7 +2,7 @@ import { Modal, Button, Form, Container, Row, Col } from "react-bootstrap";
 import { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Login.css";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
 import { CookContext } from "../context/CookContext"; // Import CookContext
 
 function LoginModal({ show, handleClose, onLoginSuccess }) {
@@ -36,7 +36,7 @@ function LoginModal({ show, handleClose, onLoginSuccess }) {
 
             <Col md={7} className="p-4">
               <h3 className="fw-bold">Login</h3>
-              <p>Enter your email and password to log in.</p>
+              <p>Enter your email to log in.</p>
 
               {error && <p className="text-danger">{error}</p>} {/* Hiển thị lỗi nếu có */}
 
@@ -50,17 +50,7 @@ function LoginModal({ show, handleClose, onLoginSuccess }) {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Form.Group>
-
-                <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </Form.Group>
-
+              
                 <Button
                   variant="danger"
                   className="w-100"
@@ -86,10 +76,27 @@ function LoginModal({ show, handleClose, onLoginSuccess }) {
                 <FaGoogle size={16} color="red" /> Continue with Google
               </Button>
               <Button
+                className="social-btn google w-100 mb-2"
+                onClick={loginWithGoogle}
+              >
+                <FaGoogle size={16} color="red" /> Continue with Google
+              </Button>
+              <Button
                 className="social-btn facebook w-100"
                 onClick={loginWithFacebook}
               >
                 <FaFacebook size={16} color="blue" /> Continue with Facebook
+              </Button>
+              <Button
+                className="social-btn google w-100 mb-2"
+                onClick={loginWithGoogle}
+              >
+                <Fa size={16} color="red" /> Continue with Google
+              </Button>
+              <Button
+                className="social-btn apple w-100"
+              >
+                <FaApple size={16} color="black" /> Continue with Apple
               </Button>
             </Col>
           </Row>
