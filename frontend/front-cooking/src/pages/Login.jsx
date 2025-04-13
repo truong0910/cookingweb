@@ -2,7 +2,7 @@ import { Modal, Button, Form, Container, Row, Col } from "react-bootstrap";
 import { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Login.css";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
 import { CookContext } from "../context/CookContext"; // Import CookContext
 
 function LoginModal({ show, handleClose, onLoginSuccess }) {
@@ -36,7 +36,7 @@ function LoginModal({ show, handleClose, onLoginSuccess }) {
 
             <Col md={7} className="p-4">
               <h3 className="fw-bold">Login</h3>
-              <p>Enter your email and password to log in.</p>
+              <p>Enter your email to log in.</p>
 
               {error && <p className="text-danger">{error}</p>} {/* Hiển thị lỗi nếu có */}
 
@@ -48,16 +48,6 @@ function LoginModal({ show, handleClose, onLoginSuccess }) {
                     placeholder="Enter email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Group>
 
@@ -90,6 +80,12 @@ function LoginModal({ show, handleClose, onLoginSuccess }) {
                 onClick={loginWithFacebook}
               >
                 <FaFacebook size={16} color="blue" /> Continue with Facebook
+              </Button>
+              <Button
+                className="social-btn apple w-100"
+                onClick={loginWithFacebook}
+              >
+                <FaApple size={16} color="blacke" /> Continue with Apple
               </Button>
             </Col>
           </Row>
