@@ -1,0 +1,52 @@
+.custom-slider {
+  height: 8px;
+  background: #f8bbd0; /* màu hồng nhạt */
+  border-radius: 4px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.custom-thumb {
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  border: 2px solid #ec407a; /* màu hồng đậm */
+  border-radius: 50%;
+  cursor: grab;
+  margin-top: -6px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.custom-track {
+  top: 0;
+  bottom: 0;
+  border-radius: 4px;
+  background: #f8bbd0; /* mặc định là hồng nhạt */
+}
+
+.custom-track.custom-track-1 {
+  background: #ec407a; /* phần được chọn là hồng đậm */
+}
+
+.form-group-bordered {
+  border: 1px solid #ccc;
+}
+
+.recipe-card {
+  height: 100%; /* Đảm bảo card chiếm toàn bộ chiều cao của cột */
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card img {
+  height: 200px; /* Chiều cao cố định cho hình ảnh */
+  object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+}
+
+.recipe-card .card-body {
+  flex-grow: 1; /* Đẩy nội dung xuống để các card có chiều cao bằng nhau */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Căn nội dung giữa và dưới cùng */
+}

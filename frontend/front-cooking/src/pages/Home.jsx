@@ -1,39 +1,137 @@
 import { useState, useEffect } from "react";
-import { Modal, Button, Carousel, Container, Card, Badge, Col, Row } from "react-bootstrap";
+import { Modal, Button, Carousel, Container, Card, Col, Row } from "react-bootstrap";
 import "../css/Home.css";
-
-const images = ["/Image 93.png", "/Image 93.png", "/Image 93.png"];
+import { CiBookmark } from "react-icons/ci";
+import axios from "axios"; // Import axios để gọi API
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Home() {
+  const [recipes, setRecipes] = useState([]); // State cho danh sách món ăn
+  const [videoRecipes, setVideoRecipes] = useState([]); // State cho danh sách video món ăn
   const [show, setShow] = useState(false);
   const [index, setIndex] = useState(0); // Trạng thái ảnh đang hiển thị
 
+  // Gọi API để lấy danh sách món ăn
   useEffect(() => {
-    setShow(true);
+    const fetchRecipes = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/recipes");
+        setRecipes(response.data); // Lưu dữ liệu vào state
+      } catch (err) {
+        console.error("Error fetching recipes:", err);
+      }
+    };
+
+    const fetchVideoRecipes = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/video-recipes");
+        setVideoRecipes(response.data); // Lưu dữ liệu vào state
+      } catch (err) {
+        console.error("Error fetching video recipes:", err);
+      }
+    };
+
+    fetchRecipes();
+    fetchVideoRecipes();
   }, []);
 
   const handleNext = () => {
-    setIndex((prevIndex) => (prevIndex + 1) % images.length);
+    setIndex((prevIndex) => (prevIndex + 1) % 3); // Giả sử có 3 ảnh trong carousel
   };
 
-  const recipes = [
-    { title: "Italian-style tomato", time: "15 minutes", img: "/img1.jpg" },
-    { title: "Spaghetti with vegetables and shrimp", time: "15 minutes", img: "/img2.jpg" },
-    { title: "Lotus delight salad", time: "20 minutes", img: "/img3.jpg" },
-    { title: "Snack cakes", time: "21 minutes", img: "/img4.jpg" },
-  ];
+  const RecipeCard = ({ recipe }) => (
+    <Card className="mb-4 shadow-sm recipe-card">
+      <Card.Img variant="top" src={recipe.image} />
+      <Card.Body>
+        <div className="d-flex justify-content-between align-items-center">
+          <Card.Title className="fs-6 fw-bold mb-0">{recipe.title}</Card.Title>
+          <div
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              backgroundColor: "white",
+              border: "1px solid #f54a85",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CiBookmark
+              style={{
+                fontSize: "20px",
+                color: "#f54a85",
+                cursor: "pointer",
+              }}
+            />
+          </div>
+        </div>
+        <div className="text-muted small text-start">
+          <span
+            style={{
+              backgroundColor: "#ffe6f0",
+              color: "#f54a85",
+              padding: "2px 8px",
+              borderRadius: "8px",
+              fontSize: "12px",
+            }}
+          >
+            {recipe.time}
+          </span>
+        </div>
+      </Card.Body>
+    </Card>
+  );
 
-  const videoRecipes = [
-    { title: "Salad with cabbage and shrimp", time: "32 minutes", img: "/img5.jpg" },
-    { title: "Salad of cove beans, shrimp and potatoes", time: "20 minutes", img: "/img6.jpg" },
-    { title: "Sunny-side up fried egg", time: "15 minutes", img: "/img7.jpg" },
-    { title: "Lotus delight salad", time: "20 minutes", img: "/img8.jpg" },
-  ];
+  const VideoRecipesCard = ({ videoRecipes }) => (
+    <Card className="mb-4 shadow-sm recipe-card">
+      <Card.Img variant="top" src={videoRecipes.image} />
+      <Card.Body>
+        <div className="d-flex justify-content-between align-items-center">
+          <Card.Title className="fs-6 fw-bold mb-0">{videoRecipes.title}</Card.Title>
+          <div
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              backgroundColor: "white",
+              border: "1px solid #f54a85",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CiBookmark
+              style={{
+                fontSize: "20px",
+                color: "#f54a85",
+                cursor: "pointer",
+              }}
+            />
+          </div>
+        </div>
+        <div className="text-muted small text-start">
+          <span
+            style={{
+              backgroundColor: "#ffe6f0",
+              color: "#f54a85",
+              padding: "2px 8px",
+              borderRadius: "8px",
+              fontSize: "12px",
+            }}
+          >
+            {videoRecipes.time}
+          </span>
+        </div>
+      </Card.Body>
+    </Card>
+  );
+
 
   return (
     <>
       {/* Background Section */}
-      <Container fluid className="home-container">
+      <Container fluid className="home-container pt-5 mt-4">
         <div className="body">
           <img src="/Image 73.png" alt="Background" className="background-image" />
 
@@ -72,49 +170,37 @@ function Home() {
               </Button>
             </div>
           </Card>
-          </div>
-          {/* This Summer Recipes Section */}
-          <Container className="mt-5 pt-5 text-center">
-            <h2 className="text-danger fw-bold">This Summer Recipes</h2>
-            <p>We have all your Independence Day sweets covered.</p>
-            <Row className="justify-content-center">
-              {recipes.map((recipe, idx) => (
-                <Col xs={6} md={3} className="my-3" key={idx}>
-                  <Card className="h-100 shadow-sm">
-                    <Card.Img variant="top" src={recipe.img} />
-                    <div className="p-3 text-center">
-                      <Card.Title className="fs-6 fw-bold">{recipe.title}</Card.Title>
-                      <Badge bg="light" text="danger">
-                        {recipe.time}
-                      </Badge>
-                    </div>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          </Container>
+        </div>
 
-          {/* Recipes With Videos Section */}
-          <Container className="mt-5 text-center">
-            <h2 className="text-danger fw-bold">Recipes With Videos</h2>
-            <p>Cooking Up Culinary Creations with Step-by-Step Videos</p>
-            <Row className="justify-content-center">
-              {videoRecipes.map((recipe, idx) => (
-                <Col xs={6} md={3} className="my-3" key={idx}>
-                  <Card className="h-100 shadow-sm">
-                    <Card.Img variant="top" src={recipe.img} />
-                    <div className="p-3 text-center">
-                      <Card.Title className="fs-6 fw-bold">{recipe.title}</Card.Title>
-                      <Badge bg="light" text="danger">
-                        {recipe.time}
-                      </Badge>
-                    </div>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        
+        {/* This Summer Recipes Section */}
+        <Container className="mt-5 pt-5 text-center">
+          <h2 className="fw-bold" style={{ color: "#f54a85", fontFamily: "Times New Roman, serif" }}>
+            This Summer Recipes
+          </h2>
+          <p>We have all your Independence Day sweets covered.</p>
+          <Row className="mt-4">
+            {recipes.map((r, idx) => (
+              <Col md={3} key={idx}>
+                <RecipeCard recipe={r} />
+              </Col>
+            ))}
+          </Row>
+        </Container>
+
+        {/* Recipes With Videos Section */}
+        <Container className="mt-5 text-center">
+          <h2 className="fw-bold" style={{ color: "#f54a85", fontFamily: "Times New Roman, serif" }}>
+            Recipes With Videos
+          </h2>
+          <p>Cooking Up Culinary Creations with Step-by-Step Videos</p>
+          <Row className="mt-4">
+            {videoRecipes.map((r, idx) => (
+              <Col md={3} key={idx}>
+                <VideoRecipesCard videoRecipes={r} />
+              </Col>
+            ))}
+          </Row>
+        </Container>
       </Container>
 
       {/* Modal Section */}
@@ -132,7 +218,7 @@ function Home() {
               interval={3000}
               className="w-100"
             >
-              {images.map((img, i) => (
+              {["/Image 93.png", "/Image 93.png", "/Image 93.png"].map((img, i) => (
                 <Carousel.Item key={i}>
                   <img
                     className="d-block w-100 rounded"

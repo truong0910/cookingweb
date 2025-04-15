@@ -15,7 +15,9 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-draggable": "^4.4.6",
+    "react-slider": "^2.0.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

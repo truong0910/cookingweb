@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { RiShareForwardLine } from "react-icons/ri"; 
 import { CiBookmark } from "react-icons/ci";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/YourRecipeBox.css"; // Import CSS file for styling
 const recipes = [
   { title: "Italian-style tomato salad", time: "14 minutes", image: "Italian-style tomato.png" },
   { title: "Vegetable and shrimp spaghetti", time: "15 minutes", image: "Vegetable and shrimp spaghetti.png" },

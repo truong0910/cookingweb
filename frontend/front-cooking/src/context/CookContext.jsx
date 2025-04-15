@@ -5,11 +5,40 @@ export const CookContext = createContext();
 
 const CookProvider = ({ children }) => {
     const [recipes, setRecipes] = useState([]); // Danh sách món ăn
+    const [filteredRecipes, setFilteredRecipes] = useState([]); // Danh sách món ăn đã lọc
+    const [searchQuery, setSearchQuery] = useState(''); // Giá trị tìm kiếm
     const [loading, setLoading] = useState(false); // Trạng thái tải dữ liệu
     const [error, setError] = useState(null); // Trạng thái lỗi
     const [user, setUser] = useState(null); // Thông tin người dùng
     const [isAuthenticated, setIsAuthenticated] = useState(false); // Trạng thái đăng nhập
 
+    const handleSearch = (query) => {
+        setSearchQuery(query); // Cập nhật giá trị tìm kiếm
+        const filtered = recipes.filter((recipe) =>
+            recipe.title.toLowerCase().includes(query.toLowerCase())
+        );
+        setFilteredRecipes(filtered); // Cập nhật danh sách món ăn đã lọc
+    };
+        // Hàm tải danh sách món ăn từ API
+        const fetchRecipes = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get('http://localhost:3000/api/allfood');
+                setRecipes(response.data); // Lưu danh sách món ăn
+                setFilteredRecipes(response.data); // Khởi tạo danh sách món ăn đã lọc
+                setError(null);
+            } catch (err) {
+                setError(err.response?.data?.message || 'Không thể tải danh sách món ăn');
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        // Gọi fetchRecipes khi ứng dụng tải
+        useEffect(() => {
+            fetchRecipes();
+        }, []);
+    
     // Hàm xử lý đăng nhập bằng email và password
     const login = async (username, password) => {
         try {
@@ -93,6 +122,9 @@ const CookProvider = ({ children }) => {
                 loginWithGoogle, // Hàm đăng nhập bằng Google
                 loginWithFacebook, // Hàm đăng nhập bằng Facebook
                 logout, // Hàm đăng xuất
+                filteredRecipes,
+                searchQuery,
+                handleSearch
             }}
         >
             {children}

@@ -7,10 +7,11 @@ const session = require("express-session"); // Import express-session
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("./models/User"); // Import model User
-const Recipe = require("./models/Recipe"); // Import model Recipe
-
+const Recipe = require("./models/Recipe"); 
+const VideoRecipe = require("./models/VideoRecipe"); // Import model VideoRecipe
 const app = express();
 const port = process.env.PORT || 3000;
+const AllFood = require('./models/allfood'); 
 
 // Kết nối MongoDB
 mongoose
@@ -213,6 +214,72 @@ app.get('/auth/facebook/success', (req, res) => {
     res.status(401).json({ message: 'Người dùng chưa đăng nhập' });
   }
 });
+
+app.get('/api/recipes', async (req, res) => {
+  try {
+    const recipes = await Recipe.find(); // Lấy tất cả dữ liệu từ MongoDB
+    res.status(200).json(recipes); // Trả về danh sách món ăn
+  } catch (err) {
+    console.error('Error fetching recipes:', err);
+    res.status(500).json({ message: 'Không thể tải danh sách món ăn' });
+  }
+});
+
+app.get('/api/video-recipes', async (req, res) => {
+  try {
+    const videoRecipes = await VideoRecipe.find(); // Lấy tất cả dữ liệu từ MongoDB
+    res.status(200).json(videoRecipes); // Trả về danh sách món ăn
+  } catch (err) {
+    console.error('Error fetching video recipes:', err);
+    res.status(500).json({ message: 'Không thể tải danh sách món ăn' });
+  }
+});
+
+app.get('/api/allfood', async (req, res) => {
+  try {
+    const allFoodItems = await AllFood.find(); // Lấy tất cả dữ liệu từ MongoDB
+    res.status(200).json(allFoodItems); // Trả về danh sách món ăn
+  } catch (err) {
+    console.error('Error fetching all food items:', err);
+    res.status(500).json({ message: 'Không thể tải danh sách món ăn' });
+  }
+});
+// Import model Recipe và VideoRecipe
+// const Recipe = require("./models/Recipe");
+// const VideoRecipe = require("./models/VideoRecipe");
+
+// // Route seed dữ liệu
+// app.get("/seed", async (req, res) => {
+//   try {
+//     // Xóa dữ liệu cũ
+//     await Recipe.deleteMany({});
+//     await VideoRecipe.deleteMany({});
+
+//     // Dữ liệu mẫu
+//     const recipes = [
+//       { title: "Italian-style tomato salad", time: "14 minutes", image: "Italian-style tomato.png" },
+//       { title: "Vegetable and shrimp spaghetti", time: "15 minutes", image: "Vegetable and shrimp spaghetti.png" },
+//       { title: "Lotus delight salad", time: "20 minutes", image: "Lotus delight salad.png" },
+//       { title: "Snack cakes", time: "21 minutes", image: "Snack cakes.png" },
+//     ];
+
+//     const videoRecipes = [
+//       { title: "Salad with cabbage and shrimp", time: "32 minutes", image: "Salad with cabbage.png" },
+//       { title: "Bean, shrimp, and potato salad", time: "32 minutes", image: "Bean, shrimp, and potato salad.png" },
+//       { title: "Sunny-side up fried eggs", time: "32 minutes", image: "Sunny-side up fried eggs.png" },
+//       { title: "Lotus delight salad", time: "32 minutes", image: "Lotus delight salad_01.png" },
+//     ];
+
+//     // Thêm dữ liệu mới
+//     await Recipe.insertMany(recipes);
+//     await VideoRecipe.insertMany(videoRecipes);
+
+//     res.status(200).json({ message: "Seed data successfully added!" });
+//   } catch (err) {
+//     console.error("Error seeding data:", err);
+//     res.status(500).json({ message: "Error seeding data" });
+//   }
+// });
 
 // Route kiểm tra CORS
 app.get("/test-cors", (req, res) => {

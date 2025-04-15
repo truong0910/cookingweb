@@ -7,11 +7,10 @@ import "../css/Header.css";
 import { CookContext } from "../context/CookContext"; // Import CookContext
 
 function Header() {
-  const { user, isAuthenticated, logout } = useContext(CookContext); // Lấy thông tin từ CookContext
-  const [show, setShow] = useState(false);
+  const { user, isAuthenticated, logout, searchQuery, handleSearch } = useContext(CookContext); 
   const [loginHover, setLoginHover] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
-  
+  const [show, setShow] = useState(false);
   return (
     <>
       <Navbar bg="light" variant="light" expand="lg" className="header">
@@ -27,6 +26,8 @@ function Header() {
                 type="text"
                 className="search-input"
                 placeholder="What would you like to cook?"
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
               />
             </div>
           </Form>
@@ -60,7 +61,9 @@ function Header() {
                       color: "#f54a85",
                       borderColor: "#ffe6ff",
                     }}
-                  >
+                    as={Link}
+                    to="/your-recipe-box"
+                    >
                     <img src="/check.png" alt="" /> Your Recipe Box
                   </Button>
 

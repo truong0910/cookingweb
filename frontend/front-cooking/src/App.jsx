@@ -9,6 +9,7 @@ import Occasions from './pages/Occasions'
 import Ingredients from './pages/Ingredients'
 import RecipesDetail from './pages/RecipesDetail'
 import CookProvider from './context/CookContext'
+import YourRecipeBox from './pages/YourRecipeBox'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/occasions" element={<Occasions />} />
           <Route path="/ingredients" element={<Ingredients />} />
           <Route path="/recipe/:id" element={<RecipesDetail />} />
+          <Route path="/your-recipe-box" element={<YourRecipeBox />} />
         </Routes>
         <Footer />
       </CookProvider>
